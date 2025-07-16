@@ -566,7 +566,7 @@ public class Db2Connection extends JdbcConnection {
             }
 
             LOGGER.trace("Oldest SCN in logs is '{}'", oldestScn);
-            return storedLsn == null || Lsn.valueOf(oldestScn).compareTo(storedLsn) < 0;
+            return storedLsn == null || Lsn.NULL.equals(storedLsn) || Lsn.valueOf(oldestScn).compareTo(storedLsn) < 0;
         }
         catch (SQLException e) {
             throw new DebeziumException("Unable to get last available log position", e);
