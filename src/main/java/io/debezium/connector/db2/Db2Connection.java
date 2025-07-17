@@ -560,12 +560,12 @@ public class Db2Connection extends JdbcConnection {
 
         try {
             final String oldestScn = singleOptionalValue(oldestFirstChangeQuery, rs -> rs.getString(1));
+            LOGGER.info("Oldest SCN in logs is '{}' and storedLsn is: {}", oldestScn, storedLsn);
 
             if (oldestScn == null) {
                 return false;
             }
 
-            LOGGER.trace("Oldest SCN in logs is '{}'", oldestScn);
             return storedLsn == null || Lsn.NULL.equals(storedLsn) || Lsn.valueOf(oldestScn).compareTo(storedLsn) < 0;
         }
         catch (SQLException e) {
